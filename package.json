@@ -1,0 +1,52 @@
+{
+  "name": "exit-ramp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Move Val Town and Deno Deploy code to Cloudflare Workers. Scan for free, convert with a report.",
+  "license": "MIT",
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20261110.1",
+    "@std/encoding": "npm:@jsr/std__encoding@^1.0.11",
+    "@std/path": "npm:@jsr/std__path@^1.1.6",
+    "@types/node": "^26.6.6",
+    "croner": "^11.0.0",
+    "fflate": "^0.8.3",
+    "hono": "^4.13.17",
+    "miniflare": "^4.20260730.0",
+    "playwright-core": "^1.65.0",
+    "postal-mime": "^4.2.1",
+    "smol-toml": "^1.9.1",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.7",
+    "vitest": "^5.1.0",
+    "wrangler": "^4.160.0",
+    "yaml": "^2.9.1",
+    "zod": "^4.6.7"
+  },
+  "bin": {
+    "exit-ramp": "dist/cli.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "gen": "node scripts/gen-templates.mjs",
+    "gen:check": "node scripts/gen-templates.mjs --check",
+    "typecheck": "tsc -p . && tsc -p templates --noEmit && tsc -p tests",
+    "test": "vitest run",
+    "build:cli": "node scripts/build-cli.mjs",
+    "build:web": "vite build web",
+    "build": "npm run gen && npm run build:cli && npm run build:web",
+    "verify": "npm run build:cli && node scripts/verify.mjs",
+    "dev:web": "vite web",
+    "ci": "npm run gen:check && npm run typecheck && npm test && npm run build",
+    "smoke:web": "npm run build:web && node scripts/web-smoke.mjs",
+    "check:launch": "node scripts/check-launch.mjs"
+  },
+  "dependencies": {
+    "esbuild": "^0.28.2",
+    "ts-morph": "^28.0.0"
+  }
+}

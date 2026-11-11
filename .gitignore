@@ -1,0 +1,8 @@
+node_modules
+dist
+dist-web
+out
+.wrangler
+.dev.vars
+.env
+*.log

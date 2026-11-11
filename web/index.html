@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>exit-ramp: move Val Town and Deno Deploy code to Cloudflare Workers</title>
+    <meta name="description" content="Paste code or drop a folder. exit-ramp scans it in your browser, scores what will move cleanly, and builds a Workers project. Nothing is uploaded." />
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="./style.css" />
+    <script type="module" src="./main.ts"></script>
+  </head>
+  <body>
+    <header>
+      <h1>exit-ramp</h1>
+      <p class="tag">Move Val Town and Deno Deploy code to Cloudflare Workers. Runs in this tab: your code is not uploaded.</p>
+      <p class="dates" id="dates"></p>
+    </header>
+
+    <main>
+      <section aria-labelledby="in-h">
+        <h2 id="in-h">1. Add your code</h2>
+        <div class="tabs" role="tablist">
+          <button role="tab" id="tab-paste" aria-selected="true" aria-controls="pane-paste">Paste</button>
+          <button role="tab" id="tab-folder" aria-selected="false" aria-controls="pane-folder">Drop a folder</button>
+          <button role="tab" id="tab-vt" aria-selected="false" aria-controls="pane-vt">From Val Town</button>
+        </div>
+
+        <div id="pane-paste" role="tabpanel">
+          <label>File name <input id="paste-name" value="main.http.ts" autocomplete="off" spellcheck="false" /></label>
+          <p class="hint">The name matters: <code>.http.</code>, <code>.cron.</code> and <code>.email.</code> mark Val Town val types.</p>
+          <textarea id="paste-code" rows="14" spellcheck="false" placeholder="Paste a val or a Deno script here"></textarea>
+          <button id="paste-add" type="button">Add file</button>
+          <button id="paste-sample" type="button" class="link">Load an example</button>
+        </div>
+
+        <div id="pane-folder" role="tabpanel" hidden>
+          <div id="drop" tabindex="0">Drop a project folder here<br /><span class="hint">or</span><br /><label class="btn">Choose a folder <input id="folder-input" type="file" webkitdirectory multiple hidden /></label></div>
+          <p class="hint">node_modules, .git and binary files are skipped. Files are read in the browser and never sent anywhere.</p>
+        </div>
+
+        <div id="pane-vt" role="tabpanel" hidden>
+          <p class="hint">Optional. Makes read-only GET requests to <code>api.val.town</code> from this tab with a token you paste. The token stays in memory and is gone when you close the page. Create one with read access at val.town/settings/api. Cron schedules and secret values are not available from the API.</p>
+          <label>API token <input id="vt-token" type="password" autocomplete="off" spellcheck="false" /></label>
+          <label>Val (optional, <code>username/name</code>; blank = all your vals) <input id="vt-val" autocomplete="off" spellcheck="false" /></label>
+          <button id="vt-go" type="button">Download source</button>
+          <p id="vt-status" class="hint" role="status"></p>
+        </div>
+
+        <h3>Files <span id="count"></span></h3>
+        <ul id="files" class="files"></ul>
+        <button id="clear" type="button" class="link" hidden>Clear</button>
+      </section>
+
+      <section aria-labelledby="opt-h">
+        <h2 id="opt-h">2. Options</h2>
+        <label>Target
+          <select id="target"><option value="workers">Cloudflare Workers</option><option value="node">Node (secondary)</option></select>
+        </label>
+        <label>Project name <input id="name" value="my-app" autocomplete="off" /></label>
+        <label>Cron schedules for Val Town cron vals, one per line as <code>file=expression</code> (UTC)
+          <textarea id="crons" rows="3" spellcheck="false" placeholder="digest.cron.ts=0 9 * * 1"></textarea>
+        </label>
+        <div class="actions">
+          <button id="scan" type="button" class="primary">Scan (free)</button>
+          <button id="convert" type="button">Convert and download .zip</button>
+        </div>
+        <p id="status" class="hint" role="status"></p>
+      </section>
+
+      <section id="results" aria-labelledby="res-h" hidden>
+        <h2 id="res-h">3. Result</h2>
+        <div id="summary"></div>
+        <table id="filetable"><thead><tr><th>File</th><th>Kind</th><th>Confidence</th><th>Manual</th><th>Review</th></tr></thead><tbody></tbody></table>
+        <h3>Findings</h3>
+        <div class="filters"><label><input type="checkbox" id="f-info" /> show auto and info</label></div>
+        <ul id="findings" class="findings"></ul>
+        <div id="needs"></div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Open source, MIT. Not affiliated with Val Town, Deno or Cloudflare. Confidence is a triage number, not a guarantee: test before you cut over.</p>
+    </footer>
+  </body>
+</html>

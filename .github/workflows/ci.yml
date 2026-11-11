@@ -1,0 +1,38 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Generated templates are committed
+        run: npm run gen:check
+      - name: Typecheck (core, templates, tests)
+        run: npm run typecheck
+      - name: Unit and integration tests
+        run: npm test
+      - name: Build CLI and web app
+        run: npm run build
+      - name: Convert fixtures and run them under wrangler dev --local
+        run: node scripts/verify.mjs
+        env:
+          WRANGLER_SEND_METRICS: "false"
+      - name: Dogfood the action on a fixture
+        uses: ./
+        with:
+          path: fixtures/deno-simple
+          fail-under: "50"

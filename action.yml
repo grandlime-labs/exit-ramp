@@ -1,0 +1,100 @@
+name: exit-ramp scan
+description: >-
+  Scan a Val Town or Deno Deploy project for what it takes to move it to Cloudflare Workers.
+  Posts a job summary with a per-file confidence score. Read-only: it never changes your files,
+  never calls a network service, and never uploads your code.
+author: exit-ramp
+branding:
+  icon: log-out
+  color: orange
+
+inputs:
+  path:
+    description: Directory (or single file) to scan, relative to the workspace.
+    default: "."
+  target:
+    description: "workers (default) or node"
+    default: workers
+  fail-under:
+    description: Fail the step when the overall confidence is below this number (0-100). Empty disables.
+    default: ""
+  fail-on-manual:
+    description: 'Fail the step when any finding needs manual work ("true" or "false").'
+    default: "false"
+  crons:
+    description: >-
+      Cron schedules for Val Town cron vals, one "file=expression" per line (they are not in the source
+      or in the Val Town API). Can also live in exit-ramp.config.json.
+    default: ""
+  node-version:
+    description: Node.js version used to run the scanner.
+    default: "22"
+
+outputs:
+  confidence:
+    description: Overall confidence, 0-100.
+    value: ${{ steps.scan.outputs.confidence }}
+  band:
+    description: high, medium or low.
+    value: ${{ steps.scan.outputs.band }}
+  manual:
+    description: Number of findings that need manual work.
+    value: ${{ steps.scan.outputs.manual }}
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+
+    - name: Build exit-ramp
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      run: |
+        # Production dependencies only (ts-morph, esbuild). Nothing is downloaded at scan time.
+        npm ci --omit=dev --ignore-scripts --no-audit --no-fund
+        node scripts/build-cli.mjs
+
+    - name: Scan
+      id: scan
+      shell: bash
+      env:
+        INPUT_PATH: ${{ inputs.path }}
+        INPUT_TARGET: ${{ inputs.target }}
+        INPUT_FAIL_UNDER: ${{ inputs.fail-under }}
+        INPUT_FAIL_ON_MANUAL: ${{ inputs.fail-on-manual }}
+        INPUT_CRONS: ${{ inputs.crons }}
+      run: |
+        set -uo pipefail
+        CLI="${GITHUB_ACTION_PATH}/dist/cli.mjs"
+        args=(scan "${INPUT_PATH:-.}" --target "${INPUT_TARGET:-workers}")
+        while IFS= read -r line; do
+          [ -n "$line" ] && args+=(--cron "$line")
+        done <<< "${INPUT_CRONS:-}"
+
+        # 1) machine-readable result for the step outputs
+        report="$(mktemp)"
+        node "$CLI" "${args[@]}" --format json > "$report" || { echo "::error::exit-ramp could not scan ${INPUT_PATH:-.}"; exit 2; }
+        read -r confidence band manual < <(node -e '
+          const r = JSON.parse(require("fs").readFileSync(process.argv[1], "utf8"));
+          console.log(r.overall.confidence, r.overall.band, r.findings.filter((f) => f.severity === "manual").length);
+        ' "$report")
+        {
+          echo "confidence=$confidence"
+          echo "band=$band"
+          echo "manual=$manual"
+        } >> "$GITHUB_OUTPUT"
+
+        # 2) job summary, with the failure thresholds applied
+        gates=()
+        [ -n "${INPUT_FAIL_UNDER:-}" ] && gates+=(--fail-under "$INPUT_FAIL_UNDER")
+        [ "${INPUT_FAIL_ON_MANUAL:-false}" = "true" ] && gates+=(--fail-on-manual)
+        summary="$(mktemp)"
+        node "$CLI" "${args[@]}" --format github-summary ${gates[@]+"${gates[@]}"} > "$summary"
+        code=$?
+        cat "$summary" >> "${GITHUB_STEP_SUMMARY:-/dev/null}"
+        if [ "$code" -eq 1 ]; then
+          echo "::error::exit-ramp: confidence $confidence ($band), $manual manual finding(s). See the job summary."
+        fi
+        exit "$code"

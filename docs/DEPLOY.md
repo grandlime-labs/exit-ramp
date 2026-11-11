@@ -81,6 +81,6 @@ npm run build:web          # -> dist-web/
 
 A custom domain is not configured.
 
-## Publishing the CLI (optional, not done)
+## npm package
 
-`package.json` has `"private": true` so nothing can be published by accident. To publish, remove it, bundle with `npm run build:cli` (bundles ts-morph into `dist/cli.mjs`), and decide on a package name. The GitHub Action does not need npm: it builds from its own source.
+The CLI is published as the free public package [`exit-ramp`](https://www.npmjs.com/package/exit-ramp) (`npx exit-ramp`). `npm run build:cli` (and `prepack`) bundles ts-morph into `dist/cli.mjs`. The GitHub Action does not need the npm package: it builds from this repo's source.

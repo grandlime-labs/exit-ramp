@@ -1,7 +1,6 @@
 {
   "name": "exit-ramp",
-  "version": "0.1.0",
-  "private": true,
+  "version": "0.1.1",
   "type": "module",
   "description": "Move Val Town and Deno Deploy code to Cloudflare Workers. Scan for free, convert with a report.",
   "license": "MIT",
@@ -43,7 +42,8 @@
     "dev:web": "vite web",
     "ci": "npm run gen:check && npm run typecheck && npm test && npm run build",
     "smoke:web": "npm run build:web && node scripts/web-smoke.mjs",
-    "check:launch": "node scripts/check-launch.mjs"
+    "check:launch": "node scripts/check-launch.mjs",
+    "prepack": "npm run build:cli"
   },
   "dependencies": {
     "esbuild": "^0.28.2",
@@ -53,5 +53,25 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/grandlime-labs/exit-ramp.git"
+  },
+  "author": "exit-ramp contributors",
+  "bugs": {
+    "url": "https://github.com/grandlime-labs/exit-ramp/issues"
+  },
+  "keywords": [
+    "val-town",
+    "deno",
+    "deno-deploy",
+    "cloudflare-workers",
+    "migration",
+    "wrangler"
+  ],
+  "files": [
+    "dist/cli.mjs",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
   }
 }

@@ -20,16 +20,23 @@ exit-ramp is deterministic: the same input gives the same output, every rewrite 
 
 ## Quick start
 
+Requires Node 20+. The CLI is on npm as [`exit-ramp`](https://www.npmjs.com/package/exit-ramp):
+
+```bash
+# 1. See what you are dealing with (free, read-only)
+npx exit-ramp scan path/to/your/project
+
+# 2. Generate a Workers project
+npx exit-ramp convert path/to/your/project --out ./my-worker --name my-app
+cd my-worker && npm install && npm run typecheck && npm run dev
+```
+
+To work from a clone of this repo instead:
+
 ```bash
 npm install
 npm run build:cli
-
-# 1. See what you are dealing with (free, read-only)
 node dist/cli.mjs scan path/to/your/project
-
-# 2. Generate a Workers project
-node dist/cli.mjs convert path/to/your/project --out ./my-worker --name my-app
-cd my-worker && npm install && npm run typecheck && npm run dev
 ```
 
 Read `MIGRATION_REPORT.md` in the output before deploying. Local development needs no Cloudflare account: `wrangler dev` runs the Worker in workerd with simulated KV, D1 and R2. Deploying is covered in [docs/DEPLOY.md](docs/DEPLOY.md).
@@ -130,6 +137,12 @@ node scripts/verify.mjs --install   # also `npm install` each generated project 
 ## Pricing
 
 The scan is free everywhere (CLI, web, Action). A paid "convert" tier is *designed* but **not built**: no payments, accounts or license checks exist in this repo. See [docs/PRICING-DESIGN.md](docs/PRICING-DESIGN.md).
+
+## npm package
+
+The CLI is published as the free public package [`exit-ramp`](https://www.npmjs.com/package/exit-ramp) (`npx exit-ramp`). The tarball is the bundled CLI, README, and LICENSE; `prepack` rebuilds the CLI. The GitHub Action still builds from this repo's source and does not need the npm package.
+
+See `CHANGELOG.md` for release notes.
 
 ## License
 

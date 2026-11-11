@@ -1,3 +1,5 @@
+<p align="center"><img src="assets/logo.png" alt="Grand Lime Labs" width="120"></p>
+
 # exit-ramp
 
 Move **Val Town** and **Deno Deploy** code to **Cloudflare Workers** (Node as a secondary target).

@@ -1,6 +1,6 @@
 {
-  "name": "exit-ramp",
-  "version": "0.1.1",
+  "name": "@grandlime-labs/exit-ramp",
+  "version": "0.1.2",
   "type": "module",
   "description": "Move Val Town and Deno Deploy code to Cloudflare Workers. Scan for free, convert with a report.",
   "license": "MIT",

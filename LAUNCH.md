@@ -148,11 +148,12 @@ exit-ramp rewrites numeric weekdays to MON-FRI and tells you when it did. Free s
 
 1. The public repo is live: https://github.com/grandlime-labs/exit-ramp. Confirm CI is green before posting.
 2. The static web app is on GitHub Pages: https://grandlime-labs.github.io/exit-ramp/. Open it in a fresh browser profile to check it loads under the CSP.
-3. Live URL placeholders have been filled with https://grandlime-labs.github.io/exit-ramp/.
-4. Run `npm run verify` and `npm run ci` once more on the final commit.
-5. Tag `v1` so `uses: you/exit-ramp@v1` in the README works.
-6. Reread the Val Town blog and the Deno blog for date changes. Update README, web banner and this file if they changed.
-7. Post from your own account, by hand. Do not schedule replies in other people's threads.
-8. Be ready to answer: "why not just use an AI agent?" (see the FAQ), "does it handle X?" (point at `docs/MAPPINGS.md`).
+3. The CLI is on npm as `@grandlime-labs/exit-ramp` (`npx @grandlime-labs/exit-ramp`). The unscoped name was rejected as too similar to `exitramp`.
+4. Live URL placeholders have been filled with https://grandlime-labs.github.io/exit-ramp/.
+5. Run `npm run verify` and `npm run ci` once more on the final commit.
+6. Tag `v1` so `uses: you/exit-ramp@v1` in the README works.
+7. Reread the Val Town blog and the Deno blog for date changes. Update README, web banner and this file if they changed.
+8. Post from your own account, by hand. Do not schedule replies in other people's threads.
+9. Be ready to answer: "why not just use an AI agent?" (see the FAQ), "does it handle X?" (point at `docs/MAPPINGS.md`).
 
 <!-- tweet length check: run `node scripts/check-launch.mjs` -->

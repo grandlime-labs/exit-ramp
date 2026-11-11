@@ -83,4 +83,4 @@ A custom domain is not configured.
 
 ## npm package
 
-The CLI is published as the free public package [`exit-ramp`](https://www.npmjs.com/package/exit-ramp) (`npx exit-ramp`). `npm run build:cli` (and `prepack`) bundles ts-morph into `dist/cli.mjs`. The GitHub Action does not need the npm package: it builds from this repo's source.
+The CLI is published as the free public package [`@grandlime-labs/exit-ramp`](https://www.npmjs.com/package/@grandlime-labs/exit-ramp) (`npx @grandlime-labs/exit-ramp`). The unscoped name `exit-ramp` was rejected by npm as too similar to the existing package `exitramp`. The binary name remains `exit-ramp`. `npm run build:cli` (and `prepack`) bundles ts-morph into `dist/cli.mjs`. The GitHub Action does not need the npm package: it builds from this repo's source.

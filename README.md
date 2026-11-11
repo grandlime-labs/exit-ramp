@@ -20,14 +20,14 @@ exit-ramp is deterministic: the same input gives the same output, every rewrite 
 
 ## Quick start
 
-Requires Node 20+. The CLI is on npm as [`exit-ramp`](https://www.npmjs.com/package/exit-ramp):
+Requires Node 20+. The CLI is on npm as [`@grandlime-labs/exit-ramp`](https://www.npmjs.com/package/@grandlime-labs/exit-ramp) (the binary is still `exit-ramp`):
 
 ```bash
 # 1. See what you are dealing with (free, read-only)
-npx exit-ramp scan path/to/your/project
+npx @grandlime-labs/exit-ramp scan path/to/your/project
 
 # 2. Generate a Workers project
-npx exit-ramp convert path/to/your/project --out ./my-worker --name my-app
+npx @grandlime-labs/exit-ramp convert path/to/your/project --out ./my-worker --name my-app
 cd my-worker && npm install && npm run typecheck && npm run dev
 ```
 
@@ -140,7 +140,7 @@ The scan is free everywhere (CLI, web, Action). A paid "convert" tier is *design
 
 ## npm package
 
-The CLI is published as the free public package [`exit-ramp`](https://www.npmjs.com/package/exit-ramp) (`npx exit-ramp`). The tarball is the bundled CLI, README, and LICENSE; `prepack` rebuilds the CLI. The GitHub Action still builds from this repo's source and does not need the npm package.
+The CLI is published as the free public package [`@grandlime-labs/exit-ramp`](https://www.npmjs.com/package/@grandlime-labs/exit-ramp) (`npx @grandlime-labs/exit-ramp`). The unscoped name `exit-ramp` was rejected by npm as too similar to the existing package `exitramp`. The tarball is the bundled CLI, README, and LICENSE; `prepack` rebuilds the CLI. The GitHub Action still builds from this repo's source and does not need the npm package.
 
 See `CHANGELOG.md` for release notes.
 

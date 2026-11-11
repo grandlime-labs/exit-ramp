@@ -78,7 +78,7 @@ It builds the scanner from the action's own source, scans the checked-out files,
 
 ### Web app
 
-`npm run dev:web` for development, `npm run build:web` for the static site in `dist-web/` (host it on Cloudflare Pages, GitHub Pages or any static host). Scanning and converting happen in the browser. The CSP (`default-src 'none'; script-src 'self'; connect-src https://api.val.town; …`) allows one outbound host: the Val Town API, used only by the optional exporter tab with a token you paste. The analyzer (ts-morph, about 7 MB, 1.6 MB gzipped) is loaded when you first press Scan.
+`npm run dev:web` for development, `npm run build:web` for the static site in `dist-web/`. The hosted app is at https://grandlime-labs.github.io/exit-ramp/ (GitHub Pages, deployed from `main` by `.github/workflows/pages.yml` with Vite base `/exit-ramp/`). You can also host `dist-web/` on Cloudflare Pages or any static host. Scanning and converting happen in the browser. The CSP (`default-src 'none'; script-src 'self'; connect-src https://api.val.town; …`) allows one outbound host: the Val Town API, used only by the optional exporter tab with a token you paste. The analyzer (ts-morph, about 7 MB, 1.6 MB gzipped) is loaded when you first press Scan.
 
 ## What it converts
 

@@ -76,10 +76,10 @@ npm run build:web          # -> dist-web/
 ```
 
 - **Cloudflare Pages:** create a Pages project (direct upload or Git) with build command `npm run build:web` and output `dist-web`. `dist-web/_headers` carries the CSP and security headers.
-- **GitHub Pages:** publish `dist-web`. GitHub Pages ignores `_headers`, so the CSP `<meta>` tag baked into `index.html` is what applies there (it lacks `frame-ancestors`).
+- **GitHub Pages:** `.github/workflows/pages.yml` builds `dist-web` on push to `main` (Node 22, `npm ci`, Vite base `/exit-ramp/`) and publishes it to https://grandlime-labs.github.io/exit-ramp/. GitHub Pages ignores `_headers`, so the CSP `<meta>` tag baked into `index.html` is what applies there (it lacks `frame-ancestors`).
 - **Netlify:** build `npm run build:web`, publish `dist-web` (`_headers` is honored).
 
-None of these has been done for you.
+A custom domain is not configured.
 
 ## Publishing the CLI (optional, not done)
 

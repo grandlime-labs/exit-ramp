@@ -1,0 +1,43 @@
+# Publishes the static web app (dist-web) to GitHub Pages.
+# Enable Pages once: Settings > Pages > Build and deployment > Source: GitHub Actions
+# (or `gh api -X POST repos/<owner>/<repo>/pages -f build_type=workflow`).
+name: Deploy web app to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - id: pages
+        uses: actions/configure-pages@v5
+      - name: Build web app
+        run: npm run build:web
+        env:
+          GITHUB_PAGES_BASE: ${{ steps.pages.outputs.base_path }}
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist-web
+      - id: deployment
+        uses: actions/deploy-pages@v4

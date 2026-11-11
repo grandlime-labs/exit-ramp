@@ -13,8 +13,17 @@ function csp(): Plugin {
   };
 }
 
+// Default base is relative so local preview and non-Pages hosts work. The GitHub Pages
+// workflow sets GITHUB_PAGES_BASE to the project path (e.g. /exit-ramp/).
+function pagesBase(): string {
+  const raw = process.env.GITHUB_PAGES_BASE?.trim();
+  if (!raw || raw === "./") return "./";
+  const withLead = raw.startsWith("/") ? raw : `/${raw}`;
+  return withLead.endsWith("/") ? withLead : `${withLead}/`;
+}
+
 export default defineConfig({
-  base: "./",
+  base: pagesBase(),
   plugins: [csp()],
   build: { outDir: "../dist-web", emptyOutDir: true, target: "es2022", modulePreload: { polyfill: false }, chunkSizeWarningLimit: 8000 },
   define: { "process.env.NODE_ENV": '"production"' },

@@ -1,6 +1,6 @@
 # LAUNCH.md: drafts only
 
-**Nothing in this file has been posted.** Every item is a draft for a human to read, edit and post themselves. Replace `{{URL}}` with the real repo or site URL once it exists (nothing has been published, so no URL exists yet).
+**Nothing in this file has been posted.** Every item is a draft for a human to read, edit and post themselves. The live web app is https://grandlime-labs.github.io/exit-ramp/ (repo: https://github.com/grandlime-labs/exit-ramp).
 
 Timing matters: Val Town announced its wind-down on 2026-11-10 and the Hacker News thread (item 50443427) is live now. Replies are most useful in the first day or two.
 
@@ -60,7 +60,7 @@ Timing matters: Val Town announced its wind-down on 2026-11-10 and the Hacker Ne
 - *Does it support Val Town cron schedules?* The Val Town API does not expose them, so you provide them with `--cron` or a config file.
 - *Other targets?* Cloudflare Workers first. Node is a secondary target for HTTP and cron.
 
-**Call to action:** Scan your project (free) → {{URL}}
+**Call to action:** Scan your project (free) → https://grandlime-labs.github.io/exit-ramp/
 
 ---
 
@@ -69,7 +69,7 @@ Timing matters: Val Town announced its wind-down on 2026-11-10 and the Hacker Ne
 **Title (≤80 chars):**
 `Show HN: Exit-ramp – scan and convert Val Town / Deno Deploy code to Workers`
 
-**URL:** the GitHub repo (or the hosted web app) {{URL}}
+**URL:** the GitHub repo (or the hosted web app) https://grandlime-labs.github.io/exit-ramp/
 
 **First comment (post immediately after submitting):**
 
@@ -93,7 +93,7 @@ Timing matters: Val Town announced its wind-down on 2026-11-10 and the Hacker Ne
 
 Post as a **top-level comment** or as a reply to the comment from `seanw265` that says agents can handle most of the migration. Read the thread again right before posting; if someone has already posted the same thing, do not repeat it.
 
-> For anyone moving off to Cloudflare Workers (one of the targets in Val Town's own migration guides): I wrote an open-source scanner/converter for exactly this, {{URL}}. It's mechanical, not magic: it reads your vals, tells you per file what converts cleanly and what needs a human, and can generate a Workers project (HTTP/cron/email vals -> fetch/scheduled/email, std/sqlite -> D1, std/blob -> R2).
+> For anyone moving off to Cloudflare Workers (one of the targets in Val Town's own migration guides): I wrote an open-source scanner/converter for exactly this, https://grandlime-labs.github.io/exit-ramp/. It's mechanical, not magic: it reads your vals, tells you per file what converts cleanly and what needs a human, and can generate a Workers project (HTTP/cron/email vals -> fetch/scheduled/email, std/sqlite -> D1, std/blob -> R2).
 >
 > Two things I learned that may save you an evening even if you don't use it: Cloudflare numbers cron weekdays 1=Sunday (unix is 0=Sunday), so a numeric `1-5` becomes Sun-Thu; and Val Town's API doesn't return cron schedules or secret values, so copy those out of the UI before it goes read-only on Dec 10.
 >
@@ -109,7 +109,7 @@ Notes: this is disclosed self-promotion, kept short and useful on its own. It do
 
 If it fits, keep it to this:
 
-> For people moving Deno Deploy apps to Workers while the LTS runs: I wrote a small open-source scanner, {{URL}}, that lists per file what maps cleanly (Deno.serve, Deno.cron, Deno.env, npm:/jsr: imports) and what doesn't. The big gap is Deno KV: Workers KV is eventually consistent and has no atomic `check()`, so those call sites are flagged rather than converted silently. It also converts cron weekdays, since Cloudflare numbers them 1=Sunday. Free and MIT; feedback on what it misses is welcome. Not affiliated with Deno or Cloudflare.
+> For people moving Deno Deploy apps to Workers while the LTS runs: I wrote a small open-source scanner, https://grandlime-labs.github.io/exit-ramp/, that lists per file what maps cleanly (Deno.serve, Deno.cron, Deno.env, npm:/jsr: imports) and what doesn't. The big gap is Deno KV: Workers KV is eventually consistent and has no atomic `check()`, so those call sites are flagged rather than converted silently. It also converts cron weekdays, since Cloudflare numbers them 1=Sunday. Free and MIT; feedback on what it misses is welcome. Not affiliated with Deno or Cloudflare.
 
 ---
 
@@ -121,7 +121,7 @@ Each is ≤ 280 characters with the URL counted as 23 (X shortens links). Verifi
 ```
 Val Town goes read-only Dec 10 and stops Jan 10. Deno Deploy shuts down ~6 months after the Cloudflare announcement.
 
-exit-ramp scans a project, scores each file, lists what needs a human, then builds a Workers project. Free scan, MIT, runs locally. {{URL}}
+exit-ramp scans a project, scores each file, lists what needs a human, then builds a Workers project. Free scan, MIT, runs locally. https://grandlime-labs.github.io/exit-ramp/
 ```
 
 **Post 2: the Deno KV gap**
@@ -130,7 +130,7 @@ Deno KV -> Workers KV is not a rename.
 
 Workers KV: eventually consistent, no atomic check(), 1 write/sec/key, string keys.
 
-exit-ramp flags each, ships a key codec that keeps Deno's tuple order, and makes atomic().check() throw instead of lying. {{URL}}
+exit-ramp flags each, ships a key codec that keeps Deno's tuple order, and makes atomic().check() throw instead of lying. https://grandlime-labs.github.io/exit-ramp/
 ```
 
 **Post 3: the cron gotcha**
@@ -139,16 +139,16 @@ Cron gotcha moving Deno.cron to Cloudflare: its weekdays count 1=Sunday, unix co
 
 "0 9 * * 1-5" quietly becomes Sun-Thu.
 
-exit-ramp rewrites numeric weekdays to MON-FRI and tells you when it did. Free scan: {{URL}}
+exit-ramp rewrites numeric weekdays to MON-FRI and tells you when it did. Free scan: https://grandlime-labs.github.io/exit-ramp/
 ```
 
 ---
 
 ## 6. Before posting anything (manual checklist)
 
-1. Create the public repo, push this directory, confirm CI is green on GitHub.
-2. Host the static web app (Cloudflare Pages / GitHub Pages: see `docs/DEPLOY.md`) and open it in a fresh browser profile to check it loads under the CSP.
-3. Replace every `{{URL}}`.
+1. The public repo is live: https://github.com/grandlime-labs/exit-ramp. Confirm CI is green before posting.
+2. The static web app is on GitHub Pages: https://grandlime-labs.github.io/exit-ramp/. Open it in a fresh browser profile to check it loads under the CSP.
+3. Live URL placeholders have been filled with https://grandlime-labs.github.io/exit-ramp/.
 4. Run `npm run verify` and `npm run ci` once more on the final commit.
 5. Tag `v1` so `uses: you/exit-ramp@v1` in the README works.
 6. Reread the Val Town blog and the Deno blog for date changes. Update README, web banner and this file if they changed.

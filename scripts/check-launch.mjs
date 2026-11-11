@@ -5,7 +5,7 @@ const section = md.split("## 5. Three X posts")[1].split("## 6.")[0];
 const posts = [...section.matchAll(/```\n([\s\S]*?)\n```/g)].map((m) => m[1]);
 let bad = 0;
 posts.forEach((p, i) => {
-  const n = [...p.replace(/\{\{URL\}\}/g, "x".repeat(23))].length;
+  const n = [...p.replace(/\{\{URL\}\}|https:\/\/grandlime-labs\.github\.io\/exit-ramp\/?/g, "x".repeat(23))].length;
   console.log(`post ${i + 1}: ${n} chars ${n <= 280 ? "ok" : "TOO LONG"}`);
   if (n > 280) bad++;
 });

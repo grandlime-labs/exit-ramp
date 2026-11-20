@@ -12,7 +12,7 @@
   <body>
     <header>
       <h1>exit-ramp</h1>
-      <p class="tag">Move Val Town and Deno Deploy code to Cloudflare Workers. Runs in this tab: your code is not uploaded.</p>
+      <p class="tag">Val Town code goes read-only on Dec 10, 2026. Deno Deploy shuts down about six months after Deno's Oct 9, 2026 announcement that it is joining Cloudflare. Move Val Town and Deno Deploy code to Cloudflare Workers. Runs in this tab: your code is not uploaded.</p>
       <p class="dates" id="dates"></p>
     </header>
 
@@ -39,7 +39,7 @@
         </div>
 
         <div id="pane-vt" role="tabpanel" hidden>
-          <p class="hint">Optional. Makes read-only GET requests to <code>api.val.town</code> from this tab with a token you paste. The token stays in memory and is gone when you close the page. Create one with read access at val.town/settings/api. Cron schedules and secret values are not available from the API.</p>
+          <p class="hint">Optional: pull your vals with a read-only token (create one at val.town/settings/api). It stays in this tab's memory and is gone when you close the page. Val Town's API doesn't share cron schedules or secret values, so add those yourself.</p>
           <label>API token <input id="vt-token" type="password" autocomplete="off" spellcheck="false" /></label>
           <label>Val (optional, <code>username/name</code>; blank = all your vals) <input id="vt-val" autocomplete="off" spellcheck="false" /></label>
           <button id="vt-go" type="button">Download source</button>
@@ -61,7 +61,7 @@
           <textarea id="crons" rows="3" spellcheck="false" placeholder="digest.cron.ts=0 9 * * 1"></textarea>
         </label>
         <div class="actions">
-          <button id="scan" type="button" class="primary">Scan (free)</button>
+          <button id="scan" type="button" class="primary">Scan</button>
           <button id="convert" type="button">Convert and download .zip</button>
         </div>
         <p id="status" class="hint" role="status"></p>

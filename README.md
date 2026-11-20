@@ -22,7 +22,7 @@ exit-ramp is deterministic: the same input gives the same output, every rewrite 
 
 ## Quick start
 
-Requires Node 20+. The CLI is on npm as [`@grandlime-labs/exit-ramp`](https://www.npmjs.com/package/@grandlime-labs/exit-ramp) (the binary is still `exit-ramp`):
+Requires Node 20+. The CLI is on npm as [`@grandlime-labs/exit-ramp`](https://www.npmjs.com/package/@grandlime-labs/exit-ramp) (the command is `exit-ramp`):
 
 ```bash
 # 1. See what you are dealing with (free, read-only)
@@ -77,7 +77,7 @@ Exit codes: `0` ok, `1` a `--fail-*` threshold failed (or an API error), `2` usa
 
 ```yaml
 - uses: actions/checkout@v4
-- uses: YOUR-ORG/exit-ramp@v1        # after you publish the repo
+- uses: grandlime-labs/exit-ramp@v1
   with:
     path: .
     fail-under: 60                    # optional
@@ -138,11 +138,11 @@ node scripts/verify.mjs --install   # also `npm install` each generated project 
 
 ## Pricing
 
-The scan is free everywhere (CLI, web, Action). A paid "convert" tier is *designed* but **not built**: no payments, accounts or license checks exist in this repo. See [docs/PRICING-DESIGN.md](docs/PRICING-DESIGN.md).
+Free and open source: scan and convert at no cost (CLI, web, Action).
 
 ## npm package
 
-The CLI is published as the free public package [`@grandlime-labs/exit-ramp`](https://www.npmjs.com/package/@grandlime-labs/exit-ramp) (`npx @grandlime-labs/exit-ramp`). The unscoped name `exit-ramp` was rejected by npm as too similar to the existing package `exitramp`. The tarball is the bundled CLI, README, and LICENSE; `prepack` rebuilds the CLI. The GitHub Action still builds from this repo's source and does not need the npm package.
+The CLI is published as the free public package [`@grandlime-labs/exit-ramp`](https://www.npmjs.com/package/@grandlime-labs/exit-ramp) (`npx @grandlime-labs/exit-ramp`). The tarball is the bundled CLI, README, and LICENSE; `prepack` rebuilds the CLI. The GitHub Action still builds from this repo's source and does not need the npm package.
 
 See `CHANGELOG.md` for release notes.
 
